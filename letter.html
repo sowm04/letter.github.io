@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Message for U</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <!-- <link rel="stylesheet" href="letter-style.css"> -->
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css?family=Caveat");
+@import url("https://fonts.googleapis.com/css?family=Ledger");
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+button,
+input {
+  font-family: "Ledger";
+}
+
+body {
+  /* background-color: #3a736c; */
+  background-image: url("https://i.pinimg.com/originals/88/74/42/887442de39badaedfd18c66012675d4a.gif");
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+ 
+}
+
+#info {
+  position: absolute;
+  font-family: Caveat;
+  color: #F1CFA0;
+  padding-top: 15px;
+  font-size: 5vh;
+  opacity: 0.7;
+}
+
+.shaker {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: -10;
+}
+
+.dialog {
+  z-index: 10;
+  top: 30vh;
+  transform: translateY(30vh);
+  margin: 0 auto;
+  width: 30vw;
+  background-color: #DCDCDC;
+  text-align: center;
+  min-width: 200px;
+  box-shadow: 10px 10px #254f49;
+}
+
+.dialog:after {
+  content: "";
+  display: block;
+  padding-bottom: 0;
+}
+
+.shadow {
+  width: 100%;
+  height: 0;
+  padding-left: 50%;
+  padding-top: 30%;
+  overflow: hidden;
+}
+
+.shadow div {
+  width: 0;
+  height: 0;
+  margin-left: -1000px;
+  margin-top: -600px;
+  border-left: 1000px solid transparent;
+  border-right: 1000px solid transparent;
+  border-top: 600px solid #8d8d8d;
+  /*    box-shadow: 10px 10px #c98510;*/
+}
+
+#stamp-envelope {
+  text-align: center;
+  border-radius: 100%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  width: 0;
+  height: 0;
+  padding-left: 13%;
+  padding-top: 14%;
+  margin-bottom: 20%;
+  /*    overflow:hidden;*/
+  margin-top: -12.5%;
+  background-color: #5a5a5a;
+  border: 2px solid #5a5a5a;
+  color: #8d8d8d;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-shadow: 2px 3px #5a5a5a;
+}
+
+@media screen and (max-height: 400px) {
+  .dialog {
+    top: 20vh;
+    transform: translateY(20vh);
+    width: 20vw;
+  }
+
+  .stamp.hvr-buzz p {
+    font-size: 2vw;
+    margin-left: -2.2vw;
+    margin-top: -2.8vw;
+  }
+}
+
+.stamp-wrapper {
+  text-align: right;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+#stamp-footer {
+  display: inline-block;
+  padding: 16px 25px;
+  color: #5a5a5a;
+  font-size: 35px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 4px solid #5a5a5a;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #5a5a5a;
+}
+
+.stamp:hover {
+  animation-name: hvr-buzz;
+}
+
+.stamp:active {
+}
+
+@-webkit-keyframes hvr-buzz {
+  50% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  100% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+}
+@keyframes hvr-buzz {
+  50% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  100% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+}
+.hvr-buzz {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+.hvr-buzz:hover,
+.hvr-buzz:active {
+  -webkit-animation-name: hvr-buzz;
+  animation-name: hvr-buzz;
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.message {
+  display: none;
+  position: absolute;
+  width: 500px;
+  max-height: 65vh;
+  margin-left: -250px;
+  left: 50vw;
+  top: 47vh;
+  margin-top: -30vh;
+}
+
+.part-one {
+  position: relative;
+  background-color: #DCDCDC;
+  max-height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.message-header {
+  width: inherit;
+  height: 5vh;
+  background-color: #8d8d8d;
+}
+
+.message-text {
+  padding: 40px 30px;
+  padding-bottom: 0px;
+  letter-spacing: 1px;
+  font-size: 18px;
+  line-height: 28px;
+  font-family: "Caveat", cursive;
+  color: black;
+}
+
+.message-footer {
+  /*    position: absolute;*/
+  bottom: 0;
+  background-color: #5a5a5a;
+  width: 400px;
+  height: 5vh;
+}
+
+#stamp-footer {
+  /*    position: absolute;*/
+  right: 30px;
+  bottom: 60px;
+  padding: 0 0;
+  padding-top: 10px;
+  width: 60px;
+  height: 60px;
+  margin-top: -34px;
+}
+
+#ui {
+  position: absolute;
+  left: calc(50vw - 40px);
+  top: calc(50vh - 40px);
+}
+
+.dg.ac {
+  z-index: 1000 !important;
+}
+
+/* Scrollbar edit for chrome just for fun. */
+#part-one-message::-webkit-scrollbar-track {
+  background-color: #254f49;
+}
+
+#part-one-message::-webkit-scrollbar {
+  width: 10px;
+}
+
+#part-one-message::-webkit-scrollbar-thumb {
+  background-color: #427f77;
+}
+
+</style>
+
+<body>
+    
+	<div class="shaker">
+		<div id="template" class="dialog">
+			<div class="dialog-body">
+				<div id="triangle-wrapper">
+					<div class="shadow">
+						<div></div>
+					</div>
+				</div>
+				<button class="stamp hvr-buzz" id="stamp-envelope"></button>
+			</div>
+			<div id="info">open me</div>
+		</div>
+
+		<div class="message">
+			<div class="part-one" id="part-one-message">
+        <div class="message-header"></div>
+        
+
+        <!-- type your mesage here -->
+        <div class="message-text">Hy saravanaa, <br><br>
+                    
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How many text messages! how many TRUTH r DARE's! how many bore adikudhu and enna panlam! how many calls of more than a hour! how many LOVE YOU's and MISS YOU's!! how many girls in your contact, and stop being a play boy. Don't feel proud cause Dhanush isn't a good looking guy, 
+		   you ain't a good rider as you say cause your scars prove so. And those girls who are friendzoned by you, a big LOL! I don't know why they had a crush on you. And few ipo propose panna enna pannuva moments. Those dares to propose you, though it sucks now, I made you blush once, LOL...
+<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Literally you made me to meet you for 11 times(3 in railway platforms). Those chocolates are ACTUAL WASTE OF MONEY  #sandhanam sticker but adhukaaga vaangitu varaama irkaadhaa.. Few minutes of waiting at the parking.. sometimes hours, and those random  roads crossed by us in your friend's bike. You learnt me to drive a bike , don't blush OKAYY?! cause I am fast learner. AND those nights at 8:30 still you won't allow me to go to my hostel, that bye solla manasu varaadha moments. Unaku adangaama, Verupethra and thimura pesra moments, #most of the times, LOL. And onna series and movies paakura moments eventhough few miles apart via phone, your start counts like threeeeeee, twwoooo, 2.5.......,0.99, start, kolandha nu nenaippa manasula, adhula audio sync onnu dhan korachal sir ku. Sometimes yeah, I am impressed by those " Thukkam vandha sollu!, Trying to be mutual cause I like being mutual, even when I am not. Those instant reply messages,  even while watchin series. And your recent, "swathy ipdi iruka vena di ,pesi sort out paniklam" , Your non-stop stupid talks even when I am totally controversial during those rides", made me think yaara ivan ivlo panran. And you made me blush sometimes for your "unna enaku romba pidikkum, ipo romba pidichurku and that word "THUNGLAMA??" etc.."
+Never thought you would become this close to me. And you are blessed to have me in your life for typing this long message, it took me one hour of thinkin. 
+Don't stay in the excited state forever...<br>
+By the way HAPPY BIRTHDAY babe:)</i>
+
+           <br><br> PS: No plagiarism. <br><br> swathy
+				</div>
+				<div class="stamp-wrapper">
+					<div class="stamp hvr-buzz" id="stamp-footer">S</div>
+				</div>
+				<div class="message-footer"></div>
+			</div>
+
+		</div>
+	</div>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.1/dat.gui.js'></script>
+	<script src='https://cdn.rawgit.com/josephg/noisejs/master/perlin.js'>
+	</script>
+    <!-- <script src='letter-script.js'></script> -->
+    <script>
+
+var _createClass = (function() {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  return function(Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+})();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var options = {
+  drag: 1,
+  gravity: 0,
+  lifespan: 161,
+  maxSpeed: 100,
+  maxParticles: 500,
+  particleColors: ["242, 167, 30", "241, 207, 160", "211, 79, 39"],
+  particlesPerPress: 400,
+  jitter: 0,
+  randomness: 1,
+  size: 10,
+  sizeRange: 10,
+  shrinkSpeed: 0.1
+};
+
+var ParticleSystem = (function() {
+  function ParticleSystem() {
+    _classCallCheck(this, ParticleSystem);
+    this.particles = [];
+  }
+  _createClass(ParticleSystem, [
+    {
+      key: "addParticle",
+      value: function addParticle(opts) {
+        for (var i = 0; i < opts.numToAdd; i++) {
+          this.particles.push(new Particle(opts));
+        }
+        while (this.particles.length > options.maxParticles) {
+          this.removeParticle();
+        }
+      }
+    },
+    {
+      key: "removeParticle",
+      value: function removeParticle() {
+        this.particles.shift();
+      }
+    },
+    {
+      key: "update",
+      value: function update() {
+        for (var i = 0; i < this.particles.length; i++) {
+          if (this.particles[i].lifespan > 0) {
+            this.particles[i].update();
+          }
+        }
+      }
+    },
+    {
+      key: "draw",
+      value: function draw() {
+        for (var i = 0; i < this.particles.length; i++) {
+          this.particles[i].draw();
+        }
+      }
+    }
+  ]);
+  return ParticleSystem;
+})();
+
+var Particle = (function() {
+  function Particle(opts) {
+    _classCallCheck(this, Particle);
+    this.lifespan = options.lifespan;
+
+    // Color
+    this.color =
+      options.particleColors[
+        Math.floor(Math.random() * options.particleColors.length)
+      ];
+
+    // Size
+    this.size = options.size;
+    this.size += Math.random() * options.sizeRange - options.sizeRange / 2;
+
+    // Position and velocity
+    this.x = opts.x;
+    this.y = opts.y;
+
+    var velXMin = -opts.leftSpread / (this.lifespan / 10);
+    var velXMax = opts.rightSpread / (this.lifespan / 10);
+    var velYMin = -opts.topSpread / (this.lifespan / 10);
+    var velYMax = opts.bottomSpread / (this.lifespan / 10);
+
+    var velXRange = velXMax - velXMin;
+    var velYRange = velYMax - velYMin;
+
+    var originLeftPercent =
+      opts.leftSpread / (opts.leftSpread + opts.rightSpread);
+    var originTopPercent =
+      opts.topSpread / (opts.topSpread + opts.bottomSpread);
+
+    this.velX = Math.random() * velXRange - velXRange * originLeftPercent;
+    this.velY = Math.random() * velYRange - velYRange * originTopPercent;
+
+  
+    this.xOff = Math.random() * 6400;
+    this.yOff = Math.random() * 6400;
+
+   
+    this.opacity = 1;
+
+  
+    this.gravity = options.gravity;
+
+    
+    this.drag = options.drag;
+    this.drag = options.drag;
+  }
+  _createClass(Particle, [
+    {
+      key: "update",
+      value: function update() {
+        // Add gravity force to the y velocity
+        this.velY += this.gravity;
+
+        // Add randomness with perlin noise
+        var randomX = noise.simplex2(this.xOff, 0);
+        var randomY = noise.simplex2(this.yOff, 0);
+        this.velX += randomX / (10 / options.randomness);
+        this.velY += randomY / (10 / options.randomness);
+        this.xOff += options.jitter;
+        this.yOff += options.jitter;
+
+        // // Apply drag
+        this.velX *= this.drag;
+        this.velY *= this.drag;
+
+        // And the velocity to the position
+        this.x += this.velX;
+        this.y += this.velY;
+
+        // Apply fade
+        this.opacity = this.lifespan / 100;
+
+        // Apply shrink
+        this.size -= options.shrinkSpeed;
+        this.size = Math.max(0, this.size);
+
+        // Update lifespan
+        this.lifespan -= 1;
+
+        if (this.size <= 0.1 || this.opacity <= 0.01) {
+          this.lifespan = 0;
+        }
+      }
+    },
+    {
+      key: "draw",
+      value: function draw() {
+        // set the fill style to have the right alpha
+        context.fillStyle = "rgba(" + this.color + ", " + this.opacity + ")";
+
+        // draw a circle of the required size
+        context.beginPath();
+        context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        context.closePath();
+
+        // and fill it
+        context.fill();
+      }
+    }
+  ]);
+  return Particle;
+})();
+
+function loop() {
+  // Clear the canvas
+  context.clearRect(0, 0, screenWidth, screenHeight);
+
+  // Update and draw paricles
+  ps.update();
+  ps.draw();
+
+  // RAF
+  requestAnimationFrame(loop);
+}
+
+function explode(el, x, y) {
+  var dialog = document.querySelector(".dialog");
+  var rect = dialog.getBoundingClientRect();
+
+  dialog.classList.remove("is-in");
+  ps.addParticle({
+    numToAdd: options.particlesPerPress,
+    x: x,
+    y: y,
+    leftSpread: x - rect.left,
+    rightSpread: rect.right - x,
+    topSpread: y - rect.top,
+    bottomSpread: rect.bottom - y
+  });
+}
+
+
+var ps = void 0;
+var context = void 0;
+
+var mouseX = void 0;
+var mouseY = void 0;
+var isPointerPressed = false;
+
+
+var screenWidth = window.innerWidth;
+var screenHeight = window.innerHeight;
+var halfWidth = window.innerWidth / 2;
+var halfHeight = window.innerHeight / 2;
+
+function updateCanvasAndScreenVars() {
+  screenWidth = window.innerWidth;
+  screenHeight = window.innerHeight;
+  halfWidth = window.innerWidth / 2;
+  halfHeight = window.innerHeight / 2;
+  canvas.width = screenWidth;
+  canvas.height = screenHeight;
+}
+
+console.clear();
+
+
+var canvas = document.createElement("canvas");
+context = canvas.getContext("2d");
+
+$(".shaker").append(canvas);
+
+updateCanvasAndScreenVars();
+
+$(window).on("resize", updateCanvasAndScreenVars);
+
+$("button").on("click", function(e) {
+  var shaker = document.querySelector(".shaker");
+  shaker.classList.add("is-shaking");
+  var dialog = document.querySelector(".dialog");
+
+  explode(dialog, e.pageX, e.pageY);
+  $(".dialog").hide();
+  $(".message").fadeIn(2000);
+
+  setTimeout(function() {
+    $(dialog).css("z-index", 1);
+  }, 200);
+});
+
+$("#stamp-footer").on("click", function(e) {
+  var message = document.getElementById("part-one-message");
+  message.scrollTop = 0;
+  $(".message").hide();
+  $(".dialog").show();
+});
+
+noise.seed(Math.floor(Math.random() * 64000));
+
+ps = new ParticleSystem();
+
+loop();
+
+    </script>
+</body>
+
+</html>
